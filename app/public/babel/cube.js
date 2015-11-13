@@ -4,7 +4,10 @@ define(['jquery'], function() {
 
     class Cube {
 
-        constructor() {
+        constructor(owner) {
+
+            // keep owner's instance
+            this.owner = owner;
 
             this.$cube = $('#cube');
             this.$x = $('.x');
@@ -48,6 +51,8 @@ define(['jquery'], function() {
                     } else {
                         this.rotate(-deltaY, -deltaX);
                     }
+
+                    this.owner.send('rotation', this.rotation);
                 }
             });
 

@@ -9,9 +9,8 @@ requirejs.config({
 });
 
 // Main entry point
-require(['js/cube', 'js/communicator'], (Cube, Communicator) => {
+require(['js/framework'], (Framework) => {
 
-    const cube = new Cube();
-    const communicator = new Communicator();
+    const framework = new Framework();
 
 });

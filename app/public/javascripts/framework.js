@@ -4,35 +4,33 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-/*
- * =============================
- * Communication
- * =============================
- */
+define(['js/cube', 'js/communicator'], function (Cube, Communicator) {
+    var Framework = (function () {
+        function Framework() {
+            _classCallCheck(this, Framework);
 
-define(['socket.io'], function (io) {
-    var Communicator = (function () {
-        function Communicator(handlersMap) {
-            _classCallCheck(this, Communicator);
+            this.cube = new Cube(this);
 
-            this._handlers = [];
-            this._socket = io();
-
-            for (var i in handlersMap) {
-                this._socket.on(i, handlersMap[i]);
-            }
+            this.communicator = new Communicator({
+                'date': this._dateHandler.bind(this),
+                'bla': function bla(msg) {
+                    return console.log(msg);
+                }
+            });
         }
 
-        _createClass(Communicator, [{
+        _createClass(Framework, [{
             key: 'send',
             value: function send(topic, msg) {
-                console.log('Sending %s', topic, msg);
-                this._socket.emit(topic, msg);
+                this.communicator.send(topic, msg);
             }
+        }, {
+            key: '_dateHandler',
+            value: function _dateHandler(msg) {}
         }]);
 
-        return Communicator;
+        return Framework;
     })();
 
-    return Communicator;
+    return Framework;
 });

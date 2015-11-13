@@ -7,10 +7,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // Main entry point
 define(['jquery'], function () {
     var Cube = (function () {
-        function Cube() {
+        function Cube(owner) {
             var _this = this;
 
             _classCallCheck(this, Cube);
+
+            // keep owner's instance
+            this.owner = owner;
 
             this.$cube = $('#cube');
             this.$x = $('.x');
@@ -58,6 +61,8 @@ define(['jquery'], function () {
                     } else {
                         _this.rotate(-deltaY, -deltaX);
                     }
+
+                    _this.owner.send('rotation', _this.rotation);
                 }
             });
 
