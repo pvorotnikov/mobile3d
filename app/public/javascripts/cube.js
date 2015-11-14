@@ -60,8 +60,6 @@ define(['jquery'], function () {
                     } else {
                         _this._rotateBy(-deltaY, -deltaX);
                     }
-
-                    _this.owner.send('rotation', _this.rotation);
                 }
             });
 

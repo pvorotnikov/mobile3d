@@ -4,7 +4,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-define(['js/cube', 'js/communicator'], function (Cube, Communicator) {
+define(['js/cube', 'js/communicator', 'js/detector'], function (Cube, Communicator, Detector) {
     var Framework = (function () {
         function Framework() {
             _classCallCheck(this, Framework);
@@ -12,8 +12,11 @@ define(['js/cube', 'js/communicator'], function (Cube, Communicator) {
             this.cube = new Cube(this);
 
             this.communicator = new Communicator({
-                'date': this._dateHandler.bind(this),
                 'rotation': this._rotationHandler.bind(this)
+            });
+
+            this.detector = new Detector({
+                'orientation': this._orientationHandler.bind(this)
             });
         }
 
@@ -28,13 +31,38 @@ define(['js/cube', 'js/communicator'], function (Cube, Communicator) {
             value: function send(topic, msg) {
                 this.communicator.send(topic, msg);
             }
-        }, {
-            key: '_dateHandler',
-            value: function _dateHandler(msg) {}
+
+            /**
+             * Handle rotation over IO.
+             * 3D rotate widgets depending on the passed values.
+             * 3D rotate only if client is not a mobile device.
+             * @param {Object} msg
+             */
+
         }, {
             key: '_rotationHandler',
             value: function _rotationHandler(msg) {
-                this.cube.rotate(msg[0], msg[1], msg[2]);
+                if (!this.detector.isMobile()) {
+                    this.cube.rotate(msg[0], msg[1], msg[2]);
+                }
+            }
+
+            /**
+             * Handle device orientation events.
+             * 3D rotate only if client is a mobile device.
+             * Send the rotation values to the server
+             * @param {Number} alpha
+             * @param {Number} beta
+             * @param {Number} gamma
+             */
+
+        }, {
+            key: '_orientationHandler',
+            value: function _orientationHandler(alpha, beta, gamma) {
+                if (this.detector.isMobile()) {
+                    this.cube.rotate(-beta, gamma, -alpha);
+                    this.send('rotation', [-beta, gamma, -alpha]);
+                }
             }
         }]);
 

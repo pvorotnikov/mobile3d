@@ -1,4 +1,4 @@
-define(['js/cube', 'js/communicator'], (Cube, Communicator) => {
+define(['js/cube', 'js/communicator', 'js/detector'], (Cube, Communicator, Detector) => {
    
     class Framework {
 
@@ -7,8 +7,11 @@ define(['js/cube', 'js/communicator'], (Cube, Communicator) => {
             this.cube = new Cube(this);
 
             this.communicator = new Communicator({
-                'date': this._dateHandler.bind(this),
                 'rotation': this._rotationHandler.bind(this)
+            });
+
+            this.detector = new Detector({
+                'orientation': this._orientationHandler.bind(this)
             });
         }
 
@@ -21,12 +24,31 @@ define(['js/cube', 'js/communicator'], (Cube, Communicator) => {
             this.communicator.send(topic, msg);
         }
 
-        _dateHandler(msg) {
-            
+        /**
+         * Handle rotation over IO.
+         * 3D rotate widgets depending on the passed values.
+         * 3D rotate only if client is not a mobile device.
+         * @param {Object} msg
+         */
+        _rotationHandler(msg) {
+            if (!this.detector.isMobile()) {
+                this.cube.rotate(msg[0], msg[1], msg[2]);
+            }
         }
 
-        _rotationHandler(msg) {
-            this.cube.rotate(msg[0], msg[1], msg[2]);
+        /**
+         * Handle device orientation events.
+         * 3D rotate only if client is a mobile device.
+         * Send the rotation values to the server
+         * @param {Number} alpha
+         * @param {Number} beta
+         * @param {Number} gamma
+         */
+        _orientationHandler(alpha, beta, gamma) {
+            if (this.detector.isMobile()) {
+                this.cube.rotate(-beta, gamma, -alpha);
+                this.send('rotation', [-beta, gamma, -alpha]);
+            }
         }
     }
     

@@ -50,8 +50,6 @@ define(['jquery'], function() {
                     } else {
                         this._rotateBy(-deltaY, -deltaX);
                     }
-
-                    this.owner.send('rotation', this.rotation);
                 }
             });
 
@@ -129,7 +127,6 @@ define(['jquery'], function() {
             var deltaZ = degZ - this.rotation[2];
             this._rotateBy(deltaX, deltaY, deltaZ);
         }
-
     }
 
     return Cube;
