@@ -8,16 +8,25 @@ define(['js/cube', 'js/communicator'], (Cube, Communicator) => {
 
             this.communicator = new Communicator({
                 'date': this._dateHandler.bind(this),
-                'bla': msg => console.log(msg)
+                'rotation': this._rotationHandler.bind(this)
             });
         }
 
+        /**
+         * Send a message to the server on a given topic.
+         * @param {String} topic
+         * @param {Object} msg
+         */
         send(topic, msg) {
             this.communicator.send(topic, msg);
         }
 
         _dateHandler(msg) {
             
+        }
+
+        _rotationHandler(msg) {
+            this.cube.rotate(msg[0], msg[1], msg[2]);
         }
     }
     

@@ -13,11 +13,15 @@ define(['js/cube', 'js/communicator'], function (Cube, Communicator) {
 
             this.communicator = new Communicator({
                 'date': this._dateHandler.bind(this),
-                'bla': function bla(msg) {
-                    return console.log(msg);
-                }
+                'rotation': this._rotationHandler.bind(this)
             });
         }
+
+        /**
+         * Send a message to the server on a given topic.
+         * @param {String} topic
+         * @param {Object} msg
+         */
 
         _createClass(Framework, [{
             key: 'send',
@@ -27,6 +31,11 @@ define(['js/cube', 'js/communicator'], function (Cube, Communicator) {
         }, {
             key: '_dateHandler',
             value: function _dateHandler(msg) {}
+        }, {
+            key: '_rotationHandler',
+            value: function _rotationHandler(msg) {
+                this.cube.rotate(msg[0], msg[1], msg[2]);
+            }
         }]);
 
         return Framework;

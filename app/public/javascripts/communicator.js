@@ -6,7 +6,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 /*
  * =============================
- * Communication
+ * Communicator
+ * This class facilitates any communication
+ * with underlying services.
  * =============================
  */
 
@@ -23,10 +25,15 @@ define(['socket.io'], function (io) {
             }
         }
 
+        /**
+         * Send a message to the server on a given topic.
+         * @param {String} topic
+         * @param {Object} msg
+         */
+
         _createClass(Communicator, [{
             key: 'send',
             value: function send(topic, msg) {
-                console.log('Sending %s', topic, msg);
                 this._socket.emit(topic, msg);
             }
         }]);

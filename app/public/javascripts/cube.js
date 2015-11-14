@@ -33,20 +33,19 @@ define(['jquery'], function () {
             $(document).on('keydown', function (e) {
                 switch (e.keyCode) {
                     case 37:
-                        _this.rotate(0, -1);break; // left
+                        _this._rotateBy(0, -1);break; // left
                     case 38:
-                        _this.rotate(-1);break; // up
+                        _this._rotateBy(-1);break; // up
                     case 39:
-                        _this.rotate(0, 1);break; // right
+                        _this._rotateBy(0, 1);break; // right
                     case 40:
-                        _this.rotate(1);break; // down
+                        _this._rotateBy(1);break; // down
                 }
             });
 
             this.$cube.on('mousedown touchstart', function (e) {
                 _this.inDrag = true;
                 _this.lastPos = [e.pageX, e.pageY];
-                _this.transitionEnabled(false);
             });
 
             this.$cube.on('mousemove ouchmove', function (e) {
@@ -57,9 +56,9 @@ define(['jquery'], function () {
                     var deltaY = y - _this.lastPos[1];
                     _this.lastPos = [x, y];
                     if (_this.rotation[0] > 180) {
-                        _this.rotate(-deltaY, deltaX);
+                        _this._rotateBy(-deltaY, deltaX);
                     } else {
-                        _this.rotate(-deltaY, -deltaX);
+                        _this._rotateBy(-deltaY, -deltaX);
                     }
 
                     _this.owner.send('rotation', _this.rotation);
@@ -68,7 +67,6 @@ define(['jquery'], function () {
 
             this.$cube.on('mouseup mouseleave touchend', function () {
                 _this.inDrag = false;
-                _this.transitionEnabled(true);
             });
 
             /*
@@ -77,7 +75,12 @@ define(['jquery'], function () {
              * =============================
              */
 
-            this.rotate();
+            // perform initial rotation
+            this._transitionEnabled(true);
+            this._rotateBy();
+            setTimeout(function () {
+                return _this._transitionEnabled(false);
+            }, 0); // allow DOM refresh
         }
 
         /**
@@ -86,23 +89,24 @@ define(['jquery'], function () {
          */
 
         _createClass(Cube, [{
-            key: 'transitionEnabled',
-            value: function transitionEnabled() {
+            key: '_transitionEnabled',
+            value: function _transitionEnabled() {
                 var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
 
                 if (state) this.$cube.css({ transitionDuration: '1s' });else this.$cube.css({ transitionDuration: '0s' });
             }
 
             /**
-             * Perform rotation
+             * Perform relative rotation
              * @param {Number} degX
              * @param {Number} degY
              * @param {Number} degZ
+             * @param {Number} time
              */
 
         }, {
-            key: 'rotate',
-            value: function rotate() {
+            key: '_rotateBy',
+            value: function _rotateBy() {
                 var degX = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
                 var degY = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
                 var degZ = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
@@ -126,6 +130,28 @@ define(['jquery'], function () {
                 this.$x.text(this.rotation[0]);
                 this.$y.text(this.rotation[1]);
                 this.$z.text(this.rotation[2]);
+            }
+
+            /**
+             * Perform arbitrary rotation to given position.
+             * Calculate deltas between the requested positions and
+             * the current ones and perform relative rotation
+             * @param {Number} degX
+             * @param {Number} degY
+             * @param {Number} degZ
+             */
+
+        }, {
+            key: 'rotate',
+            value: function rotate() {
+                var degX = arguments.length <= 0 || arguments[0] === undefined ? this.rotation[0] : arguments[0];
+                var degY = arguments.length <= 1 || arguments[1] === undefined ? this.rotation[1] : arguments[1];
+                var degZ = arguments.length <= 2 || arguments[2] === undefined ? this.rotation[2] : arguments[2];
+
+                var deltaX = degX - this.rotation[0];
+                var deltaY = degY - this.rotation[1];
+                var deltaZ = degZ - this.rotation[2];
+                this._rotateBy(deltaX, deltaY, deltaZ);
             }
         }]);
 
