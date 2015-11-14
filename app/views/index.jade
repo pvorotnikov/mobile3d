@@ -2,7 +2,7 @@ extends layout
 
 block content
   
-  section.container
+  section.cubeContainer
     div#cube
       div.front 1
       div.back 2
@@ -10,6 +10,17 @@ block content
       div.left 4
       div.top 5
       div.bottom 6
+
+  section.compassContainer
+    div#compass
+      div.frame
+      div.face
+        div.n N
+        div.e E
+        div.s S
+        div.w W
+      div.center
+      div.needle
 
   section.debug
     span.x X

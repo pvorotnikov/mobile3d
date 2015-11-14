@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "make": "babel --watch public/babel --out-dir public/javascripts"
+    "watch": "npm run watch-babel & npm run watch-scss",
+    "watch-babel": "babel --watch public/babel --out-dir public/javascripts",
+    "watch-scss": "sass --watch public/stylesheets"
   },
   "dependencies": {
     "body-parser": "~1.13.2",

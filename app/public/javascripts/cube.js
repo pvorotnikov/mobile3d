@@ -125,9 +125,9 @@ define(['jquery'], function () {
                     transform: 'rotateX(' + this.rotation[0] + 'deg) ' + 'rotateY(' + this.rotation[1] + 'deg) ' + 'rotateZ(' + this.rotation[2] + 'deg)'
                 });
 
-                this.$x.text(this.rotation[0]);
-                this.$y.text(this.rotation[1]);
-                this.$z.text(this.rotation[2]);
+                this.$x.text(Math.round(this.rotation[0]));
+                this.$y.text(Math.round(this.rotation[1]));
+                this.$z.text(Math.round(this.rotation[2]));
             }
 
             /**

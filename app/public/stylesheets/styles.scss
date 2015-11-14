@@ -12,14 +12,150 @@ body {
  * CUBE
  * ================================
  */
-.container {
+.cubeContainer {
     width: 200px;
     height: 200px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    margin: -100px 0 0 -100px;
+    position: relative;
+    float: left;
+    margin: 100px 0 0 100px;
     perspective: 1000px;
+}
+
+.compassContainer {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    float: left;
+    margin: 100px 0 0 100px;
+    perspective: 1000px;
+}
+
+#compass {
+
+    $frame-size: 200px;
+
+    .frame {
+        background: red;
+        width: $frame-size;
+        height: $frame-size;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        background-color: #fefefe;
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fefefe), color-stop(17%, #dbd9da), color-stop(50%, #0b0d0c), color-stop(51%, #0b0e0c), color-stop(59%, #b0b1b5), color-stop(71%, #aeadbd), color-stop(84%, #cfcfcd), color-stop(100%, #ffffff));
+        background-image: -webkit-linear-gradient(top, #fefefe 0%, #dbd9da 17%, #0b0d0c 50%, #0b0e0c 51%, #b0b1b5 59%, #aeadbd 71%, #cfcfcd 84%, #ffffff 100%);
+        background-image: linear-gradient(top, #fefefe 0%, #dbd9da 17%, #0b0d0c 50%, #0b0e0c 51%, #b0b1b5 59%, #aeadbd 71%, #cfcfcd 84%, #ffffff 100%);
+        border: 1px solid #999;
+        border-radius: 50%;
+        box-shadow: inset 0 0 3px #000;
+    }
+
+    $face-size: 180px;
+    $letter-offset: 10px;
+    $letter-size: 20px;
+
+    .face {
+        background: white;
+        width: $face-size;
+        height: $face-size;
+        position: absolute;
+        top: ($frame-size - $face-size) / 2;
+        left: ($frame-size - $face-size) / 2;
+
+        box-shadow: inset 0 0 6px #000;
+        background: #a6a39e;
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #c8c5c0), color-stop(100%, #ada8a2));
+        background-image: -webkit-linear-gradient(top, #c8c5c0 0%, #ada8a2 100%);
+        background-image: linear-gradient(top, #c8c5c0 0%, #ada8a2 100%);
+        border: 1px solid #999;
+        border-radius: 50%;
+
+        .n, .e, .s, .w {
+            color: black;
+            width: $letter-size;
+            height: $letter-size;
+            position: absolute;
+            text-align: center;
+            line-height: $letter-size;
+            font-size: 15px;
+        }
+
+        .n {
+            top: $letter-offset;
+            left: 50%;
+            margin-left: -$letter-size/2;
+            color: red;
+        }
+        .s {
+            bottom: $letter-offset;
+            left: 50%;
+            margin-left: -$letter-size/2;
+        }
+        .e {
+            left: $letter-offset;
+            top: 50%;
+            margin-top: -$letter-size/2;
+        }
+        .w {
+            right: $letter-offset;
+            top: 50%;
+            margin-top: -$letter-size/2;
+        }
+    }
+
+    $center-size: 100px;
+
+    .center {
+        background: #e1ddd2;
+        box-shadow: inset 0 1px 1px #777777, inset 0 -1px 1px #777777;
+        width: $center-size;
+        height: $center-size;
+        border-radius: 50%;
+        position: absolute;
+        top: ($frame-size - $center-size) / 2;
+        left: ($frame-size - $center-size) / 2;
+    }
+
+    .needle {
+        width: 60px; height: 30px;
+        position: absolute;
+        left: 50%; top: 50%;
+        margin-left: -30px; margin-top: -15px;
+    }
+
+    .needle:before {
+        content: '';
+        
+        position: absolute;
+        left: 0; right: 0;
+        top: 0; bottom: 0;
+        
+        background: linear-gradient(
+            -63deg,
+            rgba(79,188,242,1) 1%,
+            rgba(26,110,206,1) 50%,
+            rgba(216,216,216,1) 51%,
+            rgba(244,94,80,1) 53%,
+            rgba(255,45,45,1) 100%
+        );
+        transform: skewX(60deg);
+    }
+
+    .needle:after {
+        content: '';
+        
+        width: 10px; height: 10px;
+        background: #4781c0;
+        border-radius: 50%;
+        box-shadow:
+            inset 0 0 4px 2px #4d4d4d,
+            0 0 5px 1px white;
+        position: absolute;
+        left: 50%; top: 50%;
+        margin-left: -5px; margin-top: -5px;
+    }
+
 }
 
 #cube {
