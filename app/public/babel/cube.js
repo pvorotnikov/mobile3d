@@ -10,9 +10,6 @@ define(['jquery'], function() {
             this.owner = owner;
 
             this.$cube = $('#cube');
-            this.$x = $('.x');
-            this.$y = $('.y');
-            this.$z = $('.z');
 
             this.rotation = [330, 30, 0];
             this.inDrag = false;
@@ -106,10 +103,6 @@ define(['jquery'], function() {
                     'rotateY(' + this.rotation[1] + 'deg) ' + 
                     'rotateZ(' + this.rotation[2] + 'deg)'
             });
-
-            this.$x.text(Math.round(this.rotation[0]));
-            this.$y.text(Math.round(this.rotation[1]));
-            this.$z.text(Math.round(this.rotation[2]));
         }
 
         /**

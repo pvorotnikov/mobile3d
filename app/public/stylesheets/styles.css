@@ -168,24 +168,4 @@ body {
   #cube .bottom {
     transform: rotateX(-90deg) translateZ(100px); }
 
-/*
- * ================================
- * DEBUG
- * ================================
- */
-.debug {
-  text-align: center; }
-  .debug span {
-    padding: 3px 5px;
-    border-radius: 3px;
-    margin: 10px 10px;
-    border: 1px solid #333;
-    display: inline-block; }
-  .debug .x {
-    background: #900; }
-  .debug .y {
-    background: #090; }
-  .debug .z {
-    background: #009; }
-
 /*# sourceMappingURL=styles.css.map */
