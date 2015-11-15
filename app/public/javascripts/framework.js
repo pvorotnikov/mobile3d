@@ -4,12 +4,13 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-define(['js/cube', 'js/communicator', 'js/detector'], function (Cube, Communicator, Detector) {
+define(['js/cube', 'js/compass', 'js/communicator', 'js/detector'], function (Cube, Compass, Communicator, Detector) {
     var Framework = (function () {
         function Framework() {
             _classCallCheck(this, Framework);
 
             this.cube = new Cube(this);
+            this.compass = new Compass();
 
             this.communicator = new Communicator({
                 'rotation': this._rotationHandler.bind(this)
@@ -44,6 +45,7 @@ define(['js/cube', 'js/communicator', 'js/detector'], function (Cube, Communicat
             value: function _rotationHandler(msg) {
                 if (!this.detector.isMobile()) {
                     this.cube.rotate(msg[0], msg[1], msg[2]);
+                    this.compass.rotate(msg[1]);
                 }
             }
 
@@ -60,8 +62,9 @@ define(['js/cube', 'js/communicator', 'js/detector'], function (Cube, Communicat
             key: '_orientationHandler',
             value: function _orientationHandler(alpha, beta, gamma) {
                 if (this.detector.isMobile()) {
-                    this.cube.rotate(-beta, gamma, -alpha);
-                    this.send('rotation', [-beta, gamma, -alpha]);
+                    this.compass.rotate(alpha);
+                    this.cube.rotate(-beta, alpha, gamma);
+                    this.send('rotation', [-beta, alpha, gamma]);
                 }
             }
         }]);

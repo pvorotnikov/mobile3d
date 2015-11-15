@@ -1,10 +1,11 @@
-define(['js/cube', 'js/communicator', 'js/detector'], (Cube, Communicator, Detector) => {
+define(['js/cube', 'js/compass', 'js/communicator', 'js/detector'], (Cube, Compass, Communicator, Detector) => {
    
     class Framework {
 
         constructor() {
             
             this.cube = new Cube(this);
+            this.compass = new Compass();
 
             this.communicator = new Communicator({
                 'rotation': this._rotationHandler.bind(this)
@@ -33,6 +34,7 @@ define(['js/cube', 'js/communicator', 'js/detector'], (Cube, Communicator, Detec
         _rotationHandler(msg) {
             if (!this.detector.isMobile()) {
                 this.cube.rotate(msg[0], msg[1], msg[2]);
+                this.compass.rotate(msg[1]);
             }
         }
 
@@ -46,8 +48,9 @@ define(['js/cube', 'js/communicator', 'js/detector'], (Cube, Communicator, Detec
          */
         _orientationHandler(alpha, beta, gamma) {
             if (this.detector.isMobile()) {
-                this.cube.rotate(-beta, gamma, -alpha);
-                this.send('rotation', [-beta, gamma, -alpha]);
+                this.compass.rotate(alpha);
+                this.cube.rotate(-beta, alpha, gamma);
+                this.send('rotation', [-beta, alpha, gamma]);
             }
         }
     }

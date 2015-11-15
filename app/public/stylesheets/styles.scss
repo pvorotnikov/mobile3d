@@ -122,6 +122,12 @@ body {
         position: absolute;
         left: 50%; top: 50%;
         margin-left: -30px; margin-top: -15px;
+
+        // initial rotation
+        // transform: rotate(75deg);
+
+        transform-style: preserve-3d;
+        transition: transform 1s;
     }
 
     .needle:before {
