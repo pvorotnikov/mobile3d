@@ -15,6 +15,7 @@ define([], function () {
 
             // attach event listners
             window.addEventListener('deviceorientation', this._handleOrientation.bind(this), true);
+            window.addEventListener('devicemotion', this._handleDeviceMotion.bind(this), true);
 
             // initialization routine
             this._setMobile();
@@ -60,6 +61,16 @@ define([], function () {
                     var beta = e.beta;
                     var gamma = e.gamma;
                     this._handlersMap.orientation(alpha, beta, gamma);
+                }
+            }
+        }, {
+            key: '_handleDeviceMotion',
+            value: function _handleDeviceMotion(e) {
+                console.log(e);
+                if (this._handlersMap.hasOwnProperty('motion')) {
+                    var x = e.accelerationIncludingGravity.x;
+                    var y = e.accelerationIncludingGravity.y;
+                    this._handlersMap.motion(x, y);
                 }
             }
         }]);

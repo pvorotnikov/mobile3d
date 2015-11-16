@@ -4,20 +4,23 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-define(['js/cube', 'js/compass', 'js/communicator', 'js/detector'], function (Cube, Compass, Communicator, Detector) {
+define(['js/cube', 'js/compass', 'js/navigator', 'js/communicator', 'js/detector'], function (Cube, Compass, Navigator, Communicator, Detector) {
     var Framework = (function () {
         function Framework() {
             _classCallCheck(this, Framework);
 
-            this.cube = new Cube(this);
+            this.cube = new Cube();
             this.compass = new Compass();
+            this.navigator = new Navigator();
 
             this.communicator = new Communicator({
-                'rotation': this._rotationHandler.bind(this)
+                'rotation': this._rotationHandler.bind(this),
+                'movement': this._motionHandler.bind(this)
             });
 
             this.detector = new Detector({
-                'orientation': this._orientationHandler.bind(this)
+                'orientation': this._orientationHandler.bind(this),
+                'motion': this._motionHandler.bind(this)
             });
         }
 
@@ -48,6 +51,13 @@ define(['js/cube', 'js/compass', 'js/communicator', 'js/detector'], function (Cu
                     this.compass.rotate(msg[1]);
                 }
             }
+        }, {
+            key: '_motionHandler',
+            value: function _motionHandler(msg) {
+                if (!this.detector.isMobile()) {
+                    console.log(msg[0], msg[1]);
+                }
+            }
 
             /**
              * Handle device orientation events.
@@ -65,6 +75,13 @@ define(['js/cube', 'js/compass', 'js/communicator', 'js/detector'], function (Cu
                     this.compass.rotate(alpha);
                     this.cube.rotate(-beta, alpha, gamma);
                     this.send('rotation', [-beta, alpha, gamma]);
+                }
+            }
+        }, {
+            key: '_motionHandler',
+            value: function _motionHandler(x, y) {
+                if (this.detector.isMobile()) {
+                    this.send('movement', [x, y]);
                 }
             }
         }]);

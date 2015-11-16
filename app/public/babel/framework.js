@@ -1,18 +1,21 @@
-define(['js/cube', 'js/compass', 'js/communicator', 'js/detector'], (Cube, Compass, Communicator, Detector) => {
+define(['js/cube', 'js/compass', 'js/navigator', 'js/communicator', 'js/detector'], (Cube, Compass, Navigator, Communicator, Detector) => {
    
     class Framework {
 
         constructor() {
             
-            this.cube = new Cube(this);
+            this.cube = new Cube();
             this.compass = new Compass();
+            this.navigator = new Navigator();
 
             this.communicator = new Communicator({
-                'rotation': this._rotationHandler.bind(this)
+                'rotation': this._rotationHandler.bind(this),
+                'movement': this._motionHandler.bind(this)
             });
 
             this.detector = new Detector({
-                'orientation': this._orientationHandler.bind(this)
+                'orientation': this._orientationHandler.bind(this),
+                'motion': this._motionHandler.bind(this)
             });
         }
 
@@ -38,6 +41,12 @@ define(['js/cube', 'js/compass', 'js/communicator', 'js/detector'], (Cube, Compa
             }
         }
 
+        _motionHandler(msg) {
+            if (!this.detector.isMobile()) {
+                console.log(msg[0], msg[1]);
+            }
+        }
+
         /**
          * Handle device orientation events.
          * 3D rotate only if client is a mobile device.
@@ -51,6 +60,12 @@ define(['js/cube', 'js/compass', 'js/communicator', 'js/detector'], (Cube, Compa
                 this.compass.rotate(alpha);
                 this.cube.rotate(-beta, alpha, gamma);
                 this.send('rotation', [-beta, alpha, gamma]);
+            }
+        }
+
+        _motionHandler(x, y) {
+            if (this.detector.isMobile()) {
+                this.send('movement', [x, y]);
             }
         }
     }

@@ -4,10 +4,7 @@ define(['jquery'], function() {
 
     class Compass {
 
-        constructor(owner) {
-
-            // keep owner's instance
-            this.owner = owner;
+        constructor() {
 
             this.$needle = $('.needle');
 

@@ -7,13 +7,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // Main entry point
 define(['jquery'], function () {
     var Compass = (function () {
-        function Compass(owner) {
+        function Compass() {
             var _this = this;
 
             _classCallCheck(this, Compass);
-
-            // keep owner's instance
-            this.owner = owner;
 
             this.$needle = $('.needle');
 

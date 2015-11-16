@@ -27,6 +27,15 @@ body {
   margin: 100px 0 0 100px;
   perspective: 1000px; }
 
+.navigatorContainer {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  float: left;
+  margin: 100px 0 0 100px;
+  perspective: 1000px;
+  border: 1px solid gray; }
+
 #compass .frame {
   background: red;
   width: 200px;
