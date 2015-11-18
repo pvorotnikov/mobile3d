@@ -15,7 +15,7 @@ define(['js/cube', 'js/compass', 'js/navigator', 'js/communicator', 'js/detector
 
             this.communicator = new Communicator({
                 'rotation': this._rotationHandler.bind(this),
-                'movement': this._motionHandler.bind(this)
+                'movement': this._movementHandler.bind(this)
             });
 
             this.detector = new Detector({
@@ -52,10 +52,10 @@ define(['js/cube', 'js/compass', 'js/navigator', 'js/communicator', 'js/detector
                 }
             }
         }, {
-            key: '_motionHandler',
-            value: function _motionHandler(msg) {
+            key: '_movementHandler',
+            value: function _movementHandler(msg) {
                 if (!this.detector.isMobile()) {
-                    console.log(msg[0], msg[1]);
+                    this.navigator.move(msg[0], msg[1]);
                 }
             }
 

@@ -12,6 +12,8 @@ define([], function () {
             // private properties
             this._handlersMap = handlersMap;
             this._isMobile = false;
+            this._motionThreshold = 0.5;
+            this._lastMotionEvent = null;
 
             // attach event listners
             window.addEventListener('deviceorientation', this._handleOrientation.bind(this), true);
@@ -66,11 +68,21 @@ define([], function () {
         }, {
             key: '_handleDeviceMotion',
             value: function _handleDeviceMotion(e) {
-                console.log(e);
                 if (this._handlersMap.hasOwnProperty('motion')) {
+
                     var x = e.accelerationIncludingGravity.x;
                     var y = e.accelerationIncludingGravity.y;
-                    this._handlersMap.motion(x, y);
+
+                    if (this._lastMotionEvent) {
+
+                        if (Math.abs(x - this._lastMotionEvent.accelerationIncludingGravity.x) > this._motionThreshold || Math.abs(y - this._lastMotionEvent.accelerationIncludingGravity.y) > this._motionThreshold) {
+                            this._handlersMap.motion(x, y);
+                        }
+                    } else {
+                        this._handlersMap.motion(x, y);
+                    }
+
+                    this._lastMotionEvent = e;
                 }
             }
         }]);

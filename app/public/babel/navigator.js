@@ -26,6 +26,10 @@ define(['jquery'], function() {
 
             // TODO
         }
+
+        move(x, y) {
+            console.log(x, y);
+        }
     }
 
     return Navigator;

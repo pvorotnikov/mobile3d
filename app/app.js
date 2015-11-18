@@ -18,6 +18,7 @@ app.set('io', io);
 io.on('connection', socket => {
   console.log('Client Connected to socket');
   socket.on('rotation', msg => io.emit('rotation', msg));
+  socket.on('movement', msg => io.emit('movement', msg));
 });  
 
 // view engine setup

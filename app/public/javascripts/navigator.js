@@ -36,6 +36,11 @@ define(['jquery'], function () {
                 var x = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
                 var y = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
             }
+        }, {
+            key: 'move',
+            value: function move(x, y) {
+                console.log(x, y);
+            }
         }]);
 
         return Navigator;

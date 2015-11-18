@@ -36,6 +36,17 @@ body {
   perspective: 1000px;
   border: 1px solid gray; }
 
+#navigator {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; }
+  #navigator .cursor {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: red;
+    transform: translate(-10px, -10px); }
+
 #compass .frame {
   background: red;
   width: 200px;
