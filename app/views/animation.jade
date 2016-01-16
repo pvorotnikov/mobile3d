@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/styles.css')
+    script(src='/components/jquery/dist/jquery.min.js')
+    script(src='/components/Processing.js/processing.min.js')
+    script(src='/components/raphael/raphael-min.js')
+
+  body
+    div#svg
+      svg(height='100' width='600')
+        circle#svgCircle(cx='30' cy='50' r='30' stroke="#ffffff" fill='#ff0000')
+          animate#svgAnimation(attributeName='cx' from='30' to='630' dur='2s' begin='indefinite' fill='freeze')
+
+    div#raphael
+
+    div#canvas
+      canvas#pureCanvas(width=600, height=100)
+
+    div#processing
+      canvas#processingCanvas
+
+    script(src='/javascripts/animation.js')
