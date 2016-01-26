@@ -1,9 +1,9 @@
 define(['js/cube', 'js/compass', 'js/navigator', 'js/communicator', 'js/detector'], (Cube, Compass, Navigator, Communicator, Detector) => {
-   
+
     class Framework {
 
         constructor() {
-            
+
             this.cube = new Cube();
             this.compass = new Compass();
             this.navigator = new Navigator();
@@ -38,6 +38,7 @@ define(['js/cube', 'js/compass', 'js/navigator', 'js/communicator', 'js/detector
             if (!this.detector.isMobile()) {
                 this.cube.rotate(msg[0], msg[1], msg[2]);
                 this.compass.rotate(msg[1]);
+                this.navigator.rotate(msg[0], msg[1], msg[2]);
             }
         }
 
@@ -69,6 +70,6 @@ define(['js/cube', 'js/compass', 'js/navigator', 'js/communicator', 'js/detector
             }
         }
     }
-    
+
     return Framework;
 });
