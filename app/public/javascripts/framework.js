@@ -49,14 +49,14 @@ define(['js/cube', 'js/compass', 'js/navigator', 'js/communicator', 'js/detector
                 if (!this.detector.isMobile()) {
                     this.cube.rotate(msg[0], msg[1], msg[2]);
                     this.compass.rotate(msg[1]);
-                    this.navigator.rotate(msg[0], msg[1], msg[2]);
+                    this.navigator.move(msg[0], msg[1], msg[2]);
                 }
             }
         }, {
             key: '_movementHandler',
             value: function _movementHandler(msg) {
                 if (!this.detector.isMobile()) {
-                    this.navigator.move(msg[0], msg[1]);
+
                 }
             }
 
@@ -75,6 +75,7 @@ define(['js/cube', 'js/compass', 'js/navigator', 'js/communicator', 'js/detector
                 if (this.detector.isMobile()) {
                     this.compass.rotate(alpha);
                     this.cube.rotate(-beta, alpha, gamma);
+                    this.navigator.move(-beta, alpha, gamma);
                     this.send('rotation', [-beta, alpha, gamma]);
                 }
             }

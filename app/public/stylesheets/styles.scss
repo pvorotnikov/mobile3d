@@ -47,11 +47,11 @@ body {
     overflow: hidden;
 
     .cursor {
+        position: absolute;
         width: 20px;
         height: 20px;
         border-radius: 50%;
         background: red;
-        transform: translate(-10px, -10px);
     }
 }
 
@@ -157,11 +157,11 @@ body {
 
     .needle:before {
         content: '';
-        
+
         position: absolute;
         left: 0; right: 0;
         top: 0; bottom: 0;
-        
+
         background: linear-gradient(
             -63deg,
             rgba(79,188,242,1) 1%,
@@ -175,7 +175,7 @@ body {
 
     .needle:after {
         content: '';
-        
+
         width: 10px; height: 10px;
         background: #4781c0;
         border-radius: 50%;

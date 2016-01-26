@@ -9,51 +9,71 @@ define(['jquery'], function() {
             this.$cursor = $('.cursor');
             this.$navigator = $('#navigator');
 
-            this.thresholdsY = [-45, 45];
-            this.thresholdsX = [-45, 45];
+            this.thresholdsX = [-30, 30];
+            this.thresholdsY = [-30, 30];
 
-            this.position = [0, 0];
+            this.cursorW = this.$cursor.width();
+            this.cursorH = this.$cursor.height();
             this.navigatorW = this.$navigator.width();
             this.navigatorH = this.$navigator.height();
+
+            this.position = [(this.navigatorW / 2) - (this.cursorW / 2), (this.navigatorH / 2) - (this.cursorH / 2)];
+
+            this.initialRotationX = null;
+            this.initialRotationY = null;
 
             /*
              * =============================
              * Initialization
              * =============================
              */
+
+            // perform initial movement
+            this._move(this.position[0], this.position[1]);
         }
 
         /**
-         * Perform relative movement
+         * Perform absolute movement movement
          * @param {Number} x
          * @param {Number} y
          */
-        _moveBy(x=0, y=0) {
-
+        _move(x, y) {
             this.position = [
-                Math.max(Math.min(this.position[0] + x, this.navigatorW), 0),
-                Math.max(Math.min(this.position[1] + y, this.navigatorH), 0)
+                Math.max(Math.min(x, this.navigatorW - this.cursorW), 0),
+                Math.max(Math.min(y, this.navigatorH - this.cursorH), 0)
             ];
-
             this.$cursor.css({
                 left: this.position[0] + 'px',
                 top: this.position[1] + 'px',
             });
-
         }
 
-        move(x, y) {
-            // console.log(x, y);
-            let relativeX = Math.floor(x);
-            let relativeY = Math.floor(y);
-            // this._moveBy(relativeX, relativeY);
-        }
+        move(degX, degY, degZ) {
 
-        rotate(degX, degY, degZ) {
-            let relativeY = Math.round(degX);
-            console.log(degX);
-            // this._moveBy(0, relativeY);
-            // console.log(degX, degY, degZ);
+            // inverse the X rotation
+            degX = -degX;
+
+            // calibrate the rotation
+            if (null === this.initialRotationX || null === this.initialRotationY) {
+                this.initialRotationX = degX;
+                this.initialRotationY = degY;
+            }
+
+            // get the delta
+            let deltaX = this.initialRotationX - degX;
+            let deltaY = this.initialRotationY - degY;
+
+            // normalize
+            let normX = (deltaX - this.thresholdsX[0]) / (this.thresholdsX[1] - this.thresholdsX[0]);
+            normX = Math.max(Math.min(normX, 1), 0);
+            let normY = (deltaY - this.thresholdsY[0]) / (this.thresholdsY[1] - this.thresholdsY[0]);
+            normY = Math.max(Math.min(normY, 1), 0);
+
+            // convert
+            let absoluteY = normX * this.navigatorH;
+            let absoluteX = normY * this.navigatorW;
+
+            this._move(absoluteX, absoluteY);
         }
     }
 
